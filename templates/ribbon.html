@@ -1,8 +1,28 @@
 <div id="ribbon">
     <input type="text" name="projectTitle" value="Untitled Project" onchange="null" disabled/>
     <div id="fileManage">
-        <button>New</button>
-        <button>Open</button>
-        <button>Help</button>
+        <button onclick="document.getElementById('newProject').style.display = 'flex'">New</button>
+        <button onclick="document.getElementById('openProject').style.display = 'flex'">Open</button>
+        <button id="help">Help</button>
     </div>
+</div>
+
+<div id="newProject">
+    <form action="/newProject" method="post">
+        <input type="text" name="fileName" placeholder="Project Name" required/>
+        <input type="submit" value="Create Project" />
+        <button type="button" style="background-color: #DA2D50;" onclick="document.getElementById('newProject').style.display = 'none'">Cancel</button>
+    </form>
+</div>
+
+<div id="openProject">
+    <form action="/openProject" method="post">
+        <input type="text" name="fileName" placeholder="Project Name" required/>
+        <input type="submit" value="Open Project" />
+        <button type="button" style="background-color: #DA2D50" onclick="document.getElementById('openProject').style.display = 'none'">Cancel</button>
+        <div id="projectList">
+            <strong>Existing Project</strong><br/>
+            {{ projectList|safe }}
+        </div>
+    </form>
 </div>
