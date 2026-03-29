@@ -14,5 +14,43 @@
         document.getElementById("floor").style.backgroundColor = "#1B66A6";
         document.getElementById("floor").style.color = "white";
     </script>
+
+    <div class="panel">
+        <div class="card" id="manageFloor">
+            <strong>Manage Floors</strong>
+            <form>
+                <input type="text" name="floorName" placeholder="Floor Name" required />
+                <input type="submit" value="Add" />
+            </form>
+            <form>
+                <input type="text" name="floorName" placeholder="Floor Name" required />
+                <input type="submit" value="Update" disabled/>
+            </form>
+        </div>
+
+        <div class="card" id="connectFloor">
+            <strong>Connect Floors</strong>
+            <form>
+                <input type="text" name="point1" placeholder="Point 1" />
+                <input type="text" name="point2" placeholder="Point 2" />
+                <br />
+                <input type="number" step="0" min="1" placeholder="Distance" name="distance" />
+                <input type="submit" value="Connect" />
+                <input type="submit" value="Remove" />
+            </form>
+        </div>
+
+        <div class="card" id="search">
+            <strong>Search</strong>
+            <form>
+                <input type="text" name="point1" placeholder="Point 1" required/>
+                <input type="text" name="point2" placeholder="Point 2" required/>
+                <input type="submit" value="Search" />
+            </form>
+        </div>
+    </div>
+
+    <div class="container" id="floorDisplay">
+    </div>
 </body>
 </html>

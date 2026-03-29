@@ -1,11 +1,13 @@
 body {
     margin: 0;
+    height: 100%;
     display: block;
     font-family: Arial, Helvetica, sans-serif;
     background-color: #474344;
 }
 
-input[type=text] {
+input[type=text], input[type=number] {
+    flex: 2;
     background-color: white;
     border: none;
     border-radius: 5px;
@@ -15,6 +17,7 @@ input[type=text] {
 }
 
 input[type=submit], button {
+    flex: 1;
     background-color: #5B2DDA;
     border: none;
     border-radius: 5px;
@@ -27,4 +30,27 @@ input[type=submit], button {
 
 input[type=submit]:hover, button:hover {
     background-color: #241843;
+}
+
+.panel {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin: 10px;
+    gap: 10px;  
+}
+
+.card {
+    flex: 1;
+    padding: 10px;
+    background-color: #CBDAED;
+    border-radius: 10px;
+}
+
+.container {
+    background-color: #CBDAED;
+    border-radius: 10px;
+    margin: 10px;
+    padding: 20px;
 }

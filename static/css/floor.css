@@ -1,0 +1,26 @@
+#floorDisplay {
+    height: 55vh;
+}
+
+#manageFloor form {
+    display: flex;
+    flex-direction: row;
+    flex: 1;
+    gap: 10px;
+    margin: 5px 0 5px 0;
+}
+
+#connectFloor form {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    gap: 10px;
+    margin-top: 5px;
+}
+
+#search form {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    margin-top: 5px;
+}
