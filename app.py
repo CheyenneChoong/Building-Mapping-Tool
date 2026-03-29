@@ -16,6 +16,18 @@ def home():
             """
     return render_template('index.html', projectList = data)
 
+@app.route('/floor')
+def floor():
+    return render_template('floor.html')
+
+@app.route('/point')
+def point():
+    return render_template('point.html')
+
+@app.route('/test')
+def test():
+    return render_template('test.html')
+
 @app.route('/newProject', methods=["POST"])
 def newProject():
     projectName = request.form.get("fileName")
@@ -27,7 +39,7 @@ def openProject():
     projectName = request.form.get("fileName")
     projectEditor.openProject(projectName.strip())
     print("Successfully Open")
-    return redirect(url_for('home'))
+    return redirect(url_for('floor'))
 
 if __name__ == '__main__':
     app.run(debug=True)

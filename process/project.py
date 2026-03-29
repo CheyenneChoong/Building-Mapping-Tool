@@ -3,9 +3,6 @@ project.py will act as the interface used in the app.py.
 This will connect all the backend processes and algorithms.
 """
 
-import tkinter as tk
-from tkinter import filedialog
-import os
 from pathlib import Path
 import json
 
