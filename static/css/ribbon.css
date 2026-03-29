@@ -1,0 +1,24 @@
+#ribbon {
+    background-color: #8C1417;
+    padding: 1%;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+#ribbon input[type=text] {
+    background-color: transparent;
+    border: none;
+    font-size: 30px;
+    font-weight: bold;
+    color: white;
+    outline: none;
+}
+
+#ribbon button {
+    background-color: transparent;
+    border: none;
+    font-size: 18px;
+    color: white;
+    cursor: pointer;
+}
