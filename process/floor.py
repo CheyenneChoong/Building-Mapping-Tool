@@ -28,6 +28,7 @@ class Floor():
                         <input type="hidden" name="floorName" value="{__floor}" />
                         <button type="submit" formaction="/repositionUp">Up</button>
                         <button type="submit" formaction="/repositionDown">Down</button>
+                        <button type="submit" formaction="/deleteFloor">Delete</button>
                     </form>
                 </div>
                 <div class="floorContent">
@@ -56,6 +57,8 @@ class Floor():
         __data = loadData(self.__path)
         __floorList:list[str] = __data["floors"]
         __index = __floorList.index(floor)
+        if __index == (len(__floorList) - 1):
+            __index = -1
         __temp = __floorList[__index + position]
         __floorList[__index + position] = floor
         __floorList[__index] = __temp

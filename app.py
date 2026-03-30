@@ -69,5 +69,23 @@ def newFloor():
     newFloorError = floorEditor.addFloor(floorName.strip())
     return redirect(url_for('floor'))
 
+@app.route('/repositionUp', methods=["POST"])
+def repositionUp():
+    floorName = request.form.get("floorName")
+    floorEditor.changePosition(floorName, 1)
+    return redirect(url_for('floor'))
+
+@app.route('/repositionDown', methods=["POST"])
+def repositionDown():
+    floorName = request.form.get("floorName")
+    floorEditor.changePosition(floorName, -1)
+    return redirect(url_for('floor'))
+
+@app.route('/deleteFloor', methods=["POST"])
+def deleteFloor():
+    floorName = request.form.get("floorName")
+    floorEditor.removeFloor(floorName)
+    return redirect(url_for('floor'))
+
 if __name__ == '__main__':
     app.run(debug=True)
