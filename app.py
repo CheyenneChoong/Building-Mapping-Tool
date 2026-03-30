@@ -17,19 +17,22 @@ def projectList() -> str:
 app = Flask(__name__)
 @app.route('/')
 def home():
-    return render_template('index.html', projectList = projectList())
+    return render_template('index.html', projectList = projectList(), projectTitle = "Untitled Project")
 
 @app.route('/floor')
 def floor():
-    return render_template('floor.html', projectList = projectList())
+    projectTitle = projectEditor.getTitle()
+    return render_template('floor.html', projectList = projectList(), projectTitle=projectTitle)
 
 @app.route('/point')
 def point():
-    return render_template('point.html', projectList = projectList())
+    projectTitle = projectEditor.getTitle()
+    return render_template('point.html', projectList = projectList(), projectTitle=projectTitle)
 
 @app.route('/test')
 def test():
-    return render_template('test.html', projectList = projectList())
+    projectTitle = projectEditor.getTitle()
+    return render_template('test.html', projectList = projectList(), projectTitle=projectTitle)
 
 @app.route('/newProject', methods=["POST"])
 def newProject():
@@ -41,7 +44,6 @@ def newProject():
 def openProject():
     projectName = request.form.get("fileName")
     projectEditor.openProject(projectName.strip())
-    print("Successfully Open")
     return redirect(url_for('floor'))
 
 if __name__ == '__main__':

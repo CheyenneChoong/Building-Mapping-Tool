@@ -40,12 +40,15 @@ class Project():
             return
         
         with open(str(__path.absolute()), "r") as __file:
-            __data = __file.readlines()
-        
-        if projectName in __data:
-            __path = Path("project")
-            self.__path = f"{__path}/{projectName}.json"
-    
+            for __line in __file:      
+                if projectName in __line.strip("\n"):
+                    __path = Path("project")
+                    self.__path = f"{str(__path.absolute())}/{projectName}.json"
+                
+    def getTitle(self) -> str:
+        __data = loadData(self.__path)
+        return __data["title"]
+
     def updateTitle(self, title:str):
         __data = loadData(self.__path)
         __data["title"] = title
