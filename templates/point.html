@@ -19,6 +19,7 @@
         <div class="card" id="selectFloor">
             <strong>Select Floor</strong>
             <select>
+                {{ floorSelection|safe }}
             </select>
         </div>
 
@@ -37,6 +38,7 @@
                 </select>
                 <input type="submit" value="Add" />
             </form>
+            <p style="color: red; margin:0;">{{ addPointError }}</p>
         </div>
 
         <div class="card" id="connect">
@@ -53,6 +55,7 @@
                 <input type="submit" value="Remove" disabled />
             </form>
         </div>
+        <p style="color: red; margin:0;">{{ connectPointError }}</p>
     </div>
 
     <div class="container" id="pointDisplay">

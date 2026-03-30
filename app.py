@@ -6,10 +6,16 @@ from pathlib import Path
 projectEditor = Project()
 floorEditor = Floor()
 
+# Variables used in Floor Page
 projectTitle = "Untitled Project"
 newFloorError = ""
 connectFloorError = ""
 floorSearchResult = ""
+
+# Variables used in Point Page
+floorSelection = ""
+addPointError = ""
+connectPointError = ""
 
 def projectList() -> str:
     data = ""
@@ -40,7 +46,14 @@ def floor():
 
 @app.route('/point')
 def point():
-    return render_template('point.html', projectList = projectList(), projectTitle=projectTitle)
+    global floorSelection, addPointError, connectPointError
+    return render_template(
+        'point.html', 
+        projectList = projectList(), 
+        projectTitle=projectTitle,
+        floorSelection=floorSelection,
+        addPointError=addPointError,
+        connectPointError=connectPointError)
 
 @app.route('/test')
 def test():
@@ -54,12 +67,13 @@ def newProject():
 
 @app.route('/openProject', methods=["POST"])
 def openProject():
-    global projectTitle
+    global projectTitle, floorSelection
 
     projectName = request.form.get("fileName")
     projectEditor.openProject(projectName.strip())
     floorEditor.setPath(projectEditor.getPath())
     projectTitle = projectEditor.getTitle()
+    floorSelection = floorEditor.selectFloor()
     return redirect(url_for('floor'))
 
 @app.route('/newFloor', methods=["POST"])

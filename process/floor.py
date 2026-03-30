@@ -38,6 +38,16 @@ class Floor():
             '''
         return __display
 
+    def selectFloor(self) -> str:
+        __floorList = self.getFloor()
+        __display = ""
+        for __floor in __floorList:
+            __display = f'''
+            {__display}
+            <option value="{__floor}">{__floor}</option>
+            '''
+        return __display
+
     def getFloor(self) -> list:
         __data = loadData(self.__path)
         return __data["floors"]
