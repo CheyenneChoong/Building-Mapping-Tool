@@ -4,9 +4,7 @@ from pathlib import Path
 
 projectEditor = Project()
 
-app = Flask(__name__)
-@app.route('/')
-def home():
+def projectList() -> str:
     data = ""
     with open(Path("process/project/project.txt").absolute(), "r") as file:
         for line in file:
@@ -14,19 +12,24 @@ def home():
             {data}
             {line.strip("\n")}<br />
             """
-    return render_template('index.html', projectList = data)
+    return data
+
+app = Flask(__name__)
+@app.route('/')
+def home():
+    return render_template('index.html', projectList = projectList())
 
 @app.route('/floor')
 def floor():
-    return render_template('floor.html')
+    return render_template('floor.html', projectList = projectList())
 
 @app.route('/point')
 def point():
-    return render_template('point.html')
+    return render_template('point.html', projectList = projectList())
 
 @app.route('/test')
 def test():
-    return render_template('test.html')
+    return render_template('test.html', projectList = projectList())
 
 @app.route('/newProject', methods=["POST"])
 def newProject():

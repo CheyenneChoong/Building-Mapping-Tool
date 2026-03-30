@@ -14,5 +14,48 @@
         document.getElementById("point").style.backgroundColor = "#1B66A6";
         document.getElementById("point").style.color = "white";
     </script>
+
+    <div class="panel">
+        <div class="card" id="selectFloor">
+            <strong>Select Floor</strong>
+            <select>
+            </select>
+        </div>
+
+        <div class="card" id="addPoint">
+            <strong>Add Point</strong>
+            <form action="/addPoint" method="post">
+                <input type="text" name="name" placeholder="Point Name" required />
+                <select name="type" required>
+                    <option value="Room">Room</option>
+                    <option value="Checkpoint">Checkpoint</option>
+                    <option value="Connector">Connector</option>
+                </select>
+                <select name="checkpoint" required>
+                    <option value="Set as Checkpoint">Set as Checkpoint</option>
+                    <option value="Not a Checkpoint">Not a Checkpoint</option>
+                </select>
+                <input type="submit" value="Add" />
+            </form>
+        </div>
+
+        <div class="card" id="connect">
+            <strong>Connect</strong>
+            <form action="/connectPoint" method="post">
+                <input type="text" name="point1" placeholder="Point 1" required />
+                <input type="text" name="point2" placeholder="Point 2" required />
+                <input type="number" name="distance" step="0" min="1" placeholder="Distance" required />
+                <input type="submit" value="Connect" />
+            </form>
+            <form action="/removePointConnect" method="post">
+                <input type="text" name="point1" placeholder="Point 1" required />
+                <input type="text" name="point2" placeholder="Point 2" required />
+                <input type="submit" value="Remove" disabled />
+            </form>
+        </div>
+    </div>
+
+    <div class="container" id="pointDisplay">
+    </div>
 </body>
 </html>

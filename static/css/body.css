@@ -6,8 +6,7 @@ body {
     background-color: #474344;
 }
 
-input[type=text], input[type=number] {
-    flex: 2;
+input[type=text], input[type=number], select {
     background-color: white;
     border: none;
     border-radius: 5px;
@@ -17,7 +16,6 @@ input[type=text], input[type=number] {
 }
 
 input[type=submit], button {
-    flex: 1;
     background-color: #5B2DDA;
     border: none;
     border-radius: 5px;
@@ -39,6 +37,14 @@ input[type=submit]:hover, button:hover {
     justify-content: space-between;
     margin: 10px;
     gap: 10px;  
+}
+
+.panel input[type=text], .panel input[type=number] {
+    flex: 2;
+}
+
+.panel input[type=submit], .panel button {
+    flex: 1;
 }
 
 .card {
