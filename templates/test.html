@@ -14,5 +14,19 @@
         document.getElementById("test").style.backgroundColor = "#1B66A6";
         document.getElementById("test").style.color = "white";
     </script>
+
+    <div class="panel">
+        <div class="card" id="search">
+            <strong>Search</strong>
+            <form action="/search" method="post">
+                <select name="point1"></select>
+                <select name="point2"></select>
+                <input type="submit" value="Search" />
+            </form>
+        </div>
+    </div>
+
+    <div class="container" id="searchOutput">
+    </div>
 </body>
 </html>

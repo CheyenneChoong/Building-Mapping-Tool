@@ -1,0 +1,13 @@
+#searchOutput {
+    height: 60vh;
+}
+
+#search form {
+    display: flex;
+    flex-direction: row;
+}
+
+#search form select {
+    flex: 2;
+    flex-direction: row;
+}
