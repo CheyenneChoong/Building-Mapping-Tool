@@ -1,9 +1,42 @@
 from process.load import loadData, writeData
 
 class Floor():
-    def __init__(self, path:str):
+    def __init__(self):
+        self.__path = ""
+
+    def setPath(self, path:str):
         self.__path = path
-    
+
+    def displayFloor(self) -> str:
+        __floorList:list = self.getFloor()
+        __floorList = __floorList[::-1]
+        __display:str = ""
+        for __floor in __floorList:
+            __connectorList:list = self.getConnector(__floor)
+            __content:str = ""
+            for __connector in __connectorList:
+                __content = f'''
+                {__content}
+                <button type="button" id="{__connector}" class="displayButton">{__connector}</button>
+                '''
+            __display = f'''
+            {__display}
+            <div class="displayPanel">
+                <div class="titlePanel">
+                    <strong>{__floor}</strong>
+                    <form method="post">
+                        <input type="hidden" name="floorName" value="{__floor}" />
+                        <button type="submit" formaction="/repositionUp">Up</button>
+                        <button type="submit" formaction="/repositionDown">Down</button>
+                    </form>
+                </div>
+                <div class="floorContent">
+                    {__content}
+                </div>
+            </div>
+            '''
+        return __display
+
     def getFloor(self) -> list:
         __data = loadData(self.__path)
         return __data["floors"]

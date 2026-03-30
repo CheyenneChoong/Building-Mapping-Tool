@@ -18,10 +18,11 @@
     <div class="panel">
         <div class="card" id="manageFloor">
             <strong>Manage Floors</strong>
-            <form>
+            <form action="/newFloor" method="post">
                 <input type="text" name="floorName" placeholder="Floor Name" required />
                 <input type="submit" value="Add" />
             </form>
+            <p style="color: red; margin:0;">{{ newFloorError }}</p>
         </div>
 
         <div class="card" id="connectFloor">
@@ -39,6 +40,7 @@
                 <input type="text" name="point2" placeholder="Point 2" />
                 <input type="submit" value="Remove" />
             </form>
+            <p style="color: red; margin:0;">{{ connectFloorError }}</p>
         </div>
 
         <div class="card" id="search">
@@ -49,9 +51,11 @@
                 <input type="submit" value="Search" />
             </form>
         </div>
+        <p style="margin:0;">{{ floorSearchResult }}</p>
     </div>
 
     <div class="container" id="floorDisplay">
+        {{ floorContent|safe }}
     </div>
 </body>
 </html>

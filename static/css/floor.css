@@ -25,3 +25,10 @@
     margin-top: 5px;
 }
 
+.floorContent {
+    background-color: #474344;
+    height: 40px;
+    display: flex;
+    flex-direction: row;
+    overflow-x: auto;
+}

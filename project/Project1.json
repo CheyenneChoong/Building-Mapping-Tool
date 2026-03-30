@@ -1,12 +1,74 @@
 {
     "title": "Project1",
-    "names": [],
-    "floors": [],
+    "names": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5"
+    ],
+    "floors": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5"
+    ],
     "connect": [
         [],
         [],
         [],
         [],
         []
-    ]
+    ],
+    "1": {
+        "room": [],
+        "checkpoint": [],
+        "connector": [],
+        "connect": [
+            [],
+            [],
+            []
+        ]
+    },
+    "2": {
+        "room": [],
+        "checkpoint": [],
+        "connector": [],
+        "connect": [
+            [],
+            [],
+            []
+        ]
+    },
+    "3": {
+        "room": [],
+        "checkpoint": [],
+        "connector": [],
+        "connect": [
+            [],
+            [],
+            []
+        ]
+    },
+    "4": {
+        "room": [],
+        "checkpoint": [],
+        "connector": [],
+        "connect": [
+            [],
+            [],
+            []
+        ]
+    },
+    "5": {
+        "room": [],
+        "checkpoint": [],
+        "connector": [],
+        "connect": [
+            [],
+            [],
+            []
+        ]
+    }
 }
