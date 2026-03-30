@@ -6,7 +6,7 @@ projectEditor = Project()
 
 def projectList() -> str:
     data = ""
-    with open(Path("process/project/project.txt").absolute(), "r") as file:
+    with open(Path("project/project.txt").absolute(), "r") as file:
         for line in file:
             data = f"""
             {data}

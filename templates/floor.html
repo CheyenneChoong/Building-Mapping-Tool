@@ -22,20 +22,21 @@
                 <input type="text" name="floorName" placeholder="Floor Name" required />
                 <input type="submit" value="Add" />
             </form>
-            <form>
-                <input type="text" name="floorName" placeholder="Floor Name" required />
-                <input type="submit" value="Update" disabled/>
-            </form>
         </div>
 
         <div class="card" id="connectFloor">
             <strong>Connect Floors</strong>
             <form>
+                <input type="text" name="floor1" placeholder="Floor" />
                 <input type="text" name="point1" placeholder="Point 1" />
+                <input type="text" name="floor2" placeholder="Floor" />
                 <input type="text" name="point2" placeholder="Point 2" />
-                <br />
                 <input type="number" step="0" min="1" placeholder="Distance" name="distance" />
                 <input type="submit" value="Connect" />
+            </form>
+            <form>
+                <input type="text" name="point1" placeholder="Point 1" />
+                <input type="text" name="point2" placeholder="Point 2" />
                 <input type="submit" value="Remove" />
             </form>
         </div>

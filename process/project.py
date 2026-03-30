@@ -4,14 +4,17 @@ This will connect all the backend processes and algorithms.
 """
 
 from pathlib import Path
-import json
+from process.load import loadData, writeData
 
 class Project():
     def __init__(self):
         self.__path = ""
+
+    def getPath(self) -> str:
+        return self.__path
     
     def newProject(self, projectName:str):
-        __path = Path("process/project/project.txt")
+        __path = Path("project/project.txt")
         if not __path:
             return
         
@@ -20,26 +23,38 @@ class Project():
                 if __line.strip("\n") == projectName:
                     return
         
-        __path = Path("process/project")
-        with open(f"{str(__path.absolute())}/{projectName}.json", 'w') as __file:
-            __data = {
-                "title": projectName,
-                "names": [],
-                "floors": [],
-                "connect": [[], [], []]
-            }
-            json.dump(__data, __file, indent=4)
-        with open(f"{str(__path.absolute())}/project.txt", 'a') as __file:
+        __path = Path("project")
+        __data = {
+            "title": projectName,
+            "names": [],
+            "floors": [],
+            "connect": [[], [], [], [], []]
+        }
+        writeData(f"{str(__path.absolute())}/{projectName}.json", __data)
+        with open(f"{str(__path.absolute())}/project.txt", "a") as __file:
             __file.write(f"{projectName}\n")
     
     def openProject(self, projectName:str):
-        __path = Path("process/project/project.txt")
+        __path = Path("project/project.txt")
         if not __path:
             return
         
-        with open(str(__path.absolute()), 'r') as __file:
+        with open(str(__path.absolute()), "r") as __file:
             __data = __file.readlines()
         
         if projectName in __data:
-            __path = Path("process/project")
+            __path = Path("project")
             self.__path = f"{__path}/{projectName}.json"
+    
+    def updateTitle(self, title:str):
+        __data = loadData(self.__path)
+        __data["title"] = title
+        writeData(self.__path, __data)
+    
+    def check(self, name:str) -> bool:
+        __data = loadData(self.__path)
+        __nameList:list[str] = __data["names"]
+        if name in __nameList:
+            return True
+        else:
+            return False
