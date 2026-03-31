@@ -30,13 +30,7 @@
                 {{ floorSelection|safe }}
             </select>
         </div>
-        <script>
-            const keyValues = window.location.search;
-            const urlParam = new URLSearchParams(keyValues);
-            const currentFloor = urlParam.get("floor");
-            document.getElementById("selection").value = currentFloor;
-        </script>
-
+        
         <div class="card" id="addPoint">
             <strong>Add Point</strong>
             <form action="/addPoint" method="post">
@@ -47,13 +41,22 @@
                     <option value="Connector">Connector</option>
                 </select>
                 <select name="checkpoint" required>
-                    <option value="Set as Checkpoint">Set as Checkpoint</option>
-                    <option value="Not a Checkpoint">Not a Checkpoint</option>
+                    <option value="true">Set as Checkpoint</option>
+                    <option value="false">Not a Checkpoint</option>
                 </select>
+                <input id="floorInput" type="hidden" name="floor" value="test" required />
                 <input type="submit" value="Add" />
             </form>
             <p style="color: red; margin:0;">{{ addPointError }}</p>
         </div>
+
+        <script>
+            const keyValues = window.location.search;
+            const urlParam = new URLSearchParams(keyValues);
+            const currentFloor = urlParam.get("floor");
+            document.getElementById("selection").value = currentFloor;
+            document.getElementById("floorInput").value = currentFloor;
+        </script>
 
         <div class="card" id="connect">
             <strong>Connect</strong>
