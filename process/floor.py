@@ -40,11 +40,11 @@ class Floor():
 
     def selectFloor(self) -> str:
         __floorList = self.getFloor()
-        __display = ""
+        __display = "<option value="">--Select Floor--</option>"
         for __floor in __floorList:
             __display = f'''
             {__display}
-            <option value="{__floor}">{__floor}</option>
+            <option value="{__floor}" id="{__floor}">{__floor}</option>
             '''
         return __display
 

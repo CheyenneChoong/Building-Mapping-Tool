@@ -13,15 +13,29 @@
     <script>
         document.getElementById("point").style.backgroundColor = "#1B66A6";
         document.getElementById("point").style.color = "white";
+        
+        function selectFloor() {
+            var selectBox = document.getElementById("selection");
+            var value = selectBox.value;
+            if  (value) {
+                window.location.href="/point?floor=" + value;
+            }
+        }
     </script>
 
     <div class="panel">
         <div class="card" id="selectFloor">
             <strong>Select Floor</strong>
-            <select>
+            <select id="selection" onchange="selectFloor(this.value)">
                 {{ floorSelection|safe }}
             </select>
         </div>
+        <script>
+            const keyValues = window.location.search;
+            const urlParam = new URLSearchParams(keyValues);
+            const currentFloor = urlParam.get("floor");
+            document.getElementById("selection").value = currentFloor;
+        </script>
 
         <div class="card" id="addPoint">
             <strong>Add Point</strong>
