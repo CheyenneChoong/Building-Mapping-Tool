@@ -44,8 +44,13 @@
                     <option value="true">Set as Checkpoint</option>
                     <option value="false">Not a Checkpoint</option>
                 </select>
-                <input id="floorInput" type="hidden" name="floor" value="test" required />
+                <input id="floorInput1" type="hidden" name="floor" value="test" required />
                 <input type="submit" value="Add" />
+            </form>
+            <form action="/deletePoint" method="post">
+                <input type="text" name="name" placeholder="Point Name" required />
+                <input id="floorInput2" type="hidden" name="floor" value="test" required />
+                <input type="submit" value="Delete" />
             </form>
             <p style="color: red; margin:0;">{{ addPointError }}</p>
         </div>
@@ -55,7 +60,8 @@
             const urlParam = new URLSearchParams(keyValues);
             const currentFloor = urlParam.get("floor");
             document.getElementById("selection").value = currentFloor;
-            document.getElementById("floorInput").value = currentFloor;
+            document.getElementById("floorInput1").value = currentFloor;
+            document.getElementById("floorInput2").value = currentFloor;
         </script>
 
         <div class="card" id="connect">
@@ -76,6 +82,7 @@
     </div>
 
     <div class="container" id="pointDisplay">
+        {{ displayRoom|safe }}
     </div>
 </body>
 </html>

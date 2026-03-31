@@ -17,7 +17,7 @@ class Floor():
             for __connector in __connectorList:
                 __content = f'''
                 {__content}
-                <button type="button" id="{__connector}" class="displayButton">{__connector}</button>
+                <button id="{__connector}" class="displayButton" onclick="floor.highlight('{__connector}')">{__connector}</button>
                 '''
             __display = f'''
             {__display}
@@ -52,10 +52,25 @@ class Floor():
         __data = loadData(self.__path)
         return __data["floors"]
     
+    def floorConnectData(self) -> list:
+        __data = loadData(self.__path)
+        __floorConnect = __data["connect"]
+        del __floorConnect[0]
+        del __floorConnect[1]
+        print(__floorConnect)
+        return __floorConnect
+
     def getConnector(self, floor:str) -> list:
         __data = loadData(self.__path)
         return __data[floor]["connector"]
     
+    def checkFloor(self, floor:str) -> bool:
+        __data = self.getFloor()
+        if floor in __data:
+            return True
+        else:
+            return False
+
     def checkConnector(self, floor:str, connector:str) -> bool:
         __connectorList = self.getConnector(floor)
         if connector in __connectorList:

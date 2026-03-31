@@ -18,6 +18,7 @@ floorSearchResult = ""
 floorSelection = ""
 addPointError = ""
 connectPointError = ""
+currentFloor = ""
 
 def projectList() -> str:
     data = ""
@@ -37,6 +38,7 @@ def home():
 @app.route('/floor')
 def floor():
     global projectTitle, newFloorError, connectFloorError, floorSearchResult
+    data = floorEditor.floorConnectData()
     return render_template(
         'floor.html', 
         projectList = projectList(), 
@@ -44,18 +46,23 @@ def floor():
         newFloorError=newFloorError,
         connectFloorError=connectFloorError,
         floorSearchResult=floorSearchResult,
-        floorContent=floorEditor.displayFloor())
+        floorContent=floorEditor.displayFloor(),
+        startConnector=data[0],
+        endConnector=data[1],
+        distance=data[2])
 
-@app.route('/point')
+@app.route('/point', methods=["GET"])
 def point():
-    global floorSelection, addPointError, connectPointError
+    global currentFloor
+    currentFloor = request.args.get("floor")
     return render_template(
         'point.html', 
         projectList = projectList(), 
         projectTitle=projectTitle,
         floorSelection=floorSelection,
         addPointError=addPointError,
-        connectPointError=connectPointError)
+        connectPointError=connectPointError,
+        displayRoom=pointEditor.displayDetails(currentFloor),)
 
 @app.route('/test')
 def test():
@@ -104,6 +111,23 @@ def deleteFloor():
     floorEditor.removeFloor(floorName)
     return redirect(url_for('floor'))
 
+@app.route('/connectFloor', methods=["POST"])
+def connectFloor():
+    global connectFloorError
+    floor1 = request.form.get("floor1")
+    floor2 = request.form.get("floor2")
+    point1 = request.form.get("point1")
+    point2 = request.form.get("point2")
+    distance:int = int(request.form.get("distance"))
+    if floorEditor.checkFloor(floor1) and floorEditor.checkFloor(floor2):
+        if pointEditor.checkType(floor1, point1, "connector") and pointEditor.checkType(floor2, point2, "connector"):
+            connectFloorError = floorEditor.connectFloor(floor1, point1, floor2, point2, distance)
+        else:
+            connectFloorError = "Check for typo in connector name."
+    else:
+        connectFloorError = "Check for typo in floor name."
+    return redirect(url_for('floor'))
+
 @app.route('/addPoint', methods=["POST"])
 def addPoint():
     global addPointError
@@ -119,6 +143,17 @@ def addPoint():
         addPointError = "Name already taken."
     else:
         addPointError = pointEditor.addPoint(floor, pointName, type, checkpoint)
+    return redirect(url_for('point', floor=floor))
+
+@app.route('/deletePoint', methods=["POST"])
+def deletePoint():
+    global addPointError
+    pointName = request.form.get("name")
+    floor = request.form.get("floor")
+    if projectEditor.check(pointName):
+        addPointError = pointEditor.removePoint(floor, pointName)
+    else:
+        addPointError = "Point doesn't exist."
     return redirect(url_for('point', floor=floor))
 
 if __name__ == '__main__':
