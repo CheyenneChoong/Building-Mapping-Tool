@@ -55,6 +55,8 @@ def floor():
 def point():
     global currentFloor
     currentFloor = request.args.get("floor")
+    data = pointEditor.getPointConnectData(currentFloor)
+    print(data)
     return render_template(
         'point.html', 
         projectList = projectList(), 
@@ -62,7 +64,10 @@ def point():
         floorSelection=floorSelection,
         addPointError=addPointError,
         connectPointError=connectPointError,
-        displayRoom=pointEditor.displayDetails(currentFloor),)
+        displayRoom=pointEditor.displayDetails(currentFloor),
+        point1=data[0],
+        point2=data[1],
+        distance=data[2])
 
 @app.route('/test')
 def test():
@@ -158,7 +163,7 @@ def addPoint():
     type = request.form.get("type")
     check = request.form.get("checkpoint")
     floor = request.form.get("floor")
-    if check.lower() == "true":
+    if check.lower() == "true" and type != "Room":
         checkpoint = True
     else:
         checkpoint = False
@@ -181,8 +186,31 @@ def deletePoint():
 
 @app.route('/connectPoint', methods=["POST"])
 def connectPoint():
+    global connectPointError
+    floor = request.form.get("floor")
     point1 = request.form.get("point1")
     point2 = request.form.get("point2")
+    distance:int = int(request.form.get("distance"))
+    if pointEditor.checkType(floor, point1, "room") and pointEditor.checkType(floor, point2, "room"):
+        connectPointError = "Can't connect room with room. Room can only be connected to connector or checkpoint."
+    else:
+        if projectEditor.check(point1) and projectEditor.check(point2):
+            connectPointError = pointEditor.connectPoint(floor, point1, point2, distance)
+        else:
+            connectPointError = "Point doesn't exists."
+    return redirect(url_for('point', floor=floor))
+
+@app.route('/removePointConnect', methods=["POST"])
+def removePointConnect():
+    global connectPointError
+    floor = request.form.get("floor")
+    point1 = request.form.get("point1")
+    point2 = request.form.get("point2")
+    if projectEditor.check(point1) and projectEditor.check(point2):
+        connectPointError = pointEditor.removePointConnect(floor, point1, point2)
+    else:
+        connectPointError = "Connection doesn't exist."
+    return redirect(url_for('point', floor=floor))
 
 if __name__ == '__main__':
     app.run(debug=True)

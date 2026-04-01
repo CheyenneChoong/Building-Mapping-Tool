@@ -18,7 +18,7 @@ class Point():
         for __room in __roomList:
             __roomDisplay = f'''
             {__roomDisplay}
-            <button id="{__room}" class="displayButton">{__room}</button>
+            <button id="{__room}" class="displayButton" onclick="point.highlight('{__room}')">{__room}</button>
             '''
         
         __connectorList:list = __floorDetail["connector"]
@@ -26,7 +26,7 @@ class Point():
         for __connector in __connectorList:
             __connectorDisplay = f'''
             {__connectorDisplay}
-            <button id="{__connector}" class="displayButton">{__connector}</button>
+            <button id="{__connector}" class="displayButton" onclick="point.highlight('{__connector}')" >{__connector}</button>
             '''
         
         __checkpointList:list = __floorDetail["checkpoint"]
@@ -34,7 +34,7 @@ class Point():
         for __checkpoint in __checkpointList:
             __checkpointDisplay = f'''
             {__checkpointDisplay}
-            <button id="{__checkpoint}" class="displayButton">{__checkpoint}</button>
+            <button id="{__checkpoint}" class="displayButton" onclick="point.highlight('{__checkpoint}')">{__checkpoint}</button>
             '''
 
         __display = f'''
@@ -125,10 +125,24 @@ class Point():
         if point1 == point2:
             return "Can't map point to itself."
         __check = self.getPointConnectIndex(floor, point1, point2)
-        if __check == -1:
+
+        if __check != -1:
             return "Connection exists."
         
         __floorDetail:dict = __data[floor]
+        __error = ""
+        for __type in ["room", "connector", "checkpoint"]:
+            if point1 not in __floorDetail[__type]:
+                __error = f"{point1} doesn't exists in this floor."
+            else:
+                __error = ""
+            if point2 not in __floorDetail[__type]:
+                __error = f"{point2} doesn't exists in this floor."
+            else:
+                __error = ""
+        if __error:
+            return __error
+
         __connections:list[list] = __floorDetail["connect"]
         __connections[0].append(point1)
         __connections[1].append(point2)
@@ -150,6 +164,13 @@ class Point():
         else:
             return -1
     
+    def getPointConnectData(self, floor:str) -> list:
+        if not floor:
+            return [[], [], []]
+        __data = loadData(self.__path)
+        __floorDetail:dict = __data[floor]
+        return __floorDetail["connect"]
+
     def removePointConnect(self, floor:str, point1:str, point2:str) -> str:
         __index = self.getPointConnectIndex(floor, point1, point2)
         if __index == -1:

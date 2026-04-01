@@ -10,6 +10,7 @@
 <body>
     {% include 'ribbon.html' %}
     {% include 'nav.html' %}
+    <script src="/static/js/connect.js">s</script>
     <script>
         document.getElementById("point").style.backgroundColor = "#1B66A6";
         document.getElementById("point").style.color = "white";
@@ -21,6 +22,11 @@
                 window.location.href="/point?floor=" + value;
             }
         }
+
+        const p1 = {{ point1 | tojson }};
+        const p2 = {{ point2 | tojson }};
+        const d = {{ distance | tojson }};
+        const point = new Point(p1, p2, d);
     </script>
 
     <div class="panel">

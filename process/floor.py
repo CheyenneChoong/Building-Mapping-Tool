@@ -57,7 +57,6 @@ class Floor():
         __floorConnect = __data["connect"]
         del __floorConnect[0]
         del __floorConnect[1]
-        print(__floorConnect)
         return __floorConnect
 
     def getConnector(self, floor:str) -> list:

@@ -23,17 +23,30 @@ class Floor {
     } 
 }
 
-// class Point {
-//     constructor(point1, point2, distance) {
-//         this.point1 = point1;
-//         this.point2 = point2;
-//         this.distance = distance;
-//         this.temp = [];
-//     }
+class Point {
+    constructor(point1, point2, distance) {
+        this.point1 = point1;
+        this.point2 = point2;
+        this.distance = distance;
+        this.temp = [];
+    }
 
-//     highlight(point) {
-//         for (let index = 0; index < this.temp.length; index++) {
-
-//         }
-//     }
-// }
+    highlight(point) {
+        for (let index = 0; index < this.temp.length; index++) {
+            document.getElementById(this.temp[index]).style.backgroundColor = "#474344";
+        }
+        this.temp = []
+        document.getElementById(point).style.backgroundColor = "#22329e";
+        this.temp.push(point)
+        for (let index = 0; index < this.point1.length; index++) {
+            if (this.point1[index] == point) {
+                document.getElementById(this.point2[index]).style.backgroundColor = "#F37F7F";
+                this.temp.push(this.point2[index])
+            }
+            if (this.point2[index] == point) {
+                document.getElementById(this.point1[index]).style.backgroundColor = "#F37F7F";
+                this.temp.push(this.point1[index])
+            }
+        }
+    }
+}

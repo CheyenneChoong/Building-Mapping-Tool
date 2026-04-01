@@ -1,19 +1,11 @@
 <div id="ribbon">
-    <input type="text" id="projectTitle" name="projectTitle" onchange="null" value="{{ projectTitle }}"/>
+    <h1>{{ projectTitle }}</h1>
     <div id="fileManage">
         <button onclick="document.getElementById('newProject').style.display = 'flex'">New</button>
         <button onclick="document.getElementById('openProject').style.display = 'flex'">Open</button>
         <button id="help">Help</button>
     </div>
 </div>
-
-<script>
-    if (document.getElementById("projectTitle").innerHTML != "Untitled Project") {
-        document.getElementById("projectTitle").disabled = false;
-    } else {
-        document.getElementById("projectTitle").disabled = true;
-    }
-</script>
 
 <div id="newProject">
     <form action="/newProject" method="post">
