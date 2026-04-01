@@ -100,9 +100,32 @@ class Point():
             __roomList.remove(name)
         elif name in __connectorList:
             __connectorList.remove(name)
+            __floorConnect:list[list] = __data["connect"]
+            __deleteList1:list = [__index for __index, __check in enumerate(__floorConnect[1]) if __check == name]
+            __deleteList2:list = [__index for __index, __check in enumerate(__floorConnect[3]) if __check == name]
+            __deleteList = list(set(__deleteList1) | set(__deleteList2))
+            __deleteList.sort(reverse=True)
+            for __delete in __deleteList:
+                del __floorConnect[0][__delete]
+                del __floorConnect[1][__delete]
+                del __floorConnect[2][__delete]
+                del __floorConnect[3][__delete]
+                del __floorConnect[4][__delete]
+            __data["connect"] = __floorConnect
         if name in __checkpointList:
             __checkpointList.remove(name)
         
+        __connectList:list[list] = __floorInfo["connect"]
+        __deleteList1 = [__index for __index, __check in enumerate(__connectList[0]) if __check == name]
+        __deleteList2 = [__index for __index, __check in enumerate(__connectList[1]) if __check == name]
+        __deleteList = list(set(__deleteList1) | set(__deleteList2))
+        __deleteList.sort(reverse=True)
+        for __delete in __deleteList:
+            del __connectList[0][__delete]
+            del __connectList[1][__delete]
+            del __connectList[2][__delete]
+        __floorInfo["connect"] = __connectList
+
         __floorInfo["room"] = __roomList
         __floorInfo["connector"] = __connectorList
         __floorInfo["checkpoint"] = __checkpointList

@@ -36,16 +36,16 @@
         <div class="card" id="connectFloor">
             <strong>Connect Floors</strong>
             <form action="/connectFloor" method="post">
-                <input type="text" name="floor1" placeholder="Floor" />
-                <input type="text" name="point1" placeholder="Point 1" />
-                <input type="text" name="floor2" placeholder="Floor" />
-                <input type="text" name="point2" placeholder="Point 2" />
-                <input type="number" step="0" min="1" placeholder="Distance" name="distance" />
+                <input type="text" name="floor1" placeholder="Floor" required/>
+                <input type="text" name="point1" placeholder="Point 1" required/>
+                <input type="text" name="floor2" placeholder="Floor" required/>
+                <input type="text" name="point2" placeholder="Point 2" required/>
+                <input type="number" step="0" min="1" placeholder="Distance" name="distance" required/>
                 <input type="submit" value="Connect" />
             </form>
             <form action="/removeConnectFloor" method="post">
-                <input type="text" name="point1" placeholder="Point 1" />
-                <input type="text" name="point2" placeholder="Point 2" />
+                <input type="text" name="point1" placeholder="Point 1" required/>
+                <input type="text" name="point2" placeholder="Point 2" required/>
                 <input type="submit" value="Remove" />
             </form>
             <p style="color: red; margin:0;">{{ connectFloorError }}</p>
