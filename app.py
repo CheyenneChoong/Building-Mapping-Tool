@@ -128,6 +128,17 @@ def connectFloor():
         connectFloorError = "Check for typo in floor name."
     return redirect(url_for('floor'))
 
+@app.route('/removeConnectFloor', methods=["POST"])
+def removeConnectFloor():
+    global connectFloorError
+    point1 = request.form.get("point1")
+    point2 = request.form.get("point2")
+    if projectEditor.check(point1) and projectEditor.check(point2):
+        connectFloorError = floorEditor.removeFloorConnect(point1, point2)
+    else:
+        connectFloorError = "No connection found."
+    return redirect(url_for('floor'))
+
 @app.route('/addPoint', methods=["POST"])
 def addPoint():
     global addPointError

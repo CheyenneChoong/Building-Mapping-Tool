@@ -12,7 +12,7 @@ class Floor {
         }
 
         this.temp = [];
-        document.getElementById(point).style.backgroundColor = "#7F8FF3";
+        document.getElementById(point).style.backgroundColor = "#22329e";
         this.temp.push(point);
         for (let index = 0; index < this.startConnector.length; index++) {
             if (this.startConnector[index] == point) {

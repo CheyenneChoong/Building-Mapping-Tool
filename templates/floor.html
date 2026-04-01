@@ -43,7 +43,7 @@
                 <input type="number" step="0" min="1" placeholder="Distance" name="distance" />
                 <input type="submit" value="Connect" />
             </form>
-            <form>
+            <form action="/removeConnectFloor" method="post">
                 <input type="text" name="point1" placeholder="Point 1" />
                 <input type="text" name="point2" placeholder="Point 2" />
                 <input type="submit" value="Remove" />
@@ -56,7 +56,7 @@
             <form>
                 <input type="text" name="point1" placeholder="Point 1" required/>
                 <input type="text" name="point2" placeholder="Point 2" required/>
-                <input type="button" value="Search" />
+                <input type="submit" value="Search" />
             </form>
         </div>
         <p id="floorSearchResult" style="margin:0;">{{ floorSearchResult }}</p>
