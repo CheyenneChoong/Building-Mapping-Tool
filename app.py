@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, Response
+from flask import Flask, render_template, request, redirect, url_for
 from process.project import Project
 from process.floor import Floor
 from process.point import Point
@@ -168,9 +168,8 @@ def addPoint():
     global addPointError
     pointName = request.form.get("name")
     type = request.form.get("type")
-    check = request.form.get("checkpoint")
     floor = request.form.get("floor")
-    if check.lower() == "true" and type != "Room":
+    if type != "Room":
         checkpoint = True
     else:
         checkpoint = False

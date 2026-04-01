@@ -53,7 +53,7 @@ class Project():
         __data = loadData(self.__path)
         __data["title"] = title
         writeData(self.__path, __data)
-    
+
     def check(self, name:str) -> bool:
         __data = loadData(self.__path)
         __nameList:list[str] = __data["names"]
