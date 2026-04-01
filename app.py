@@ -119,13 +119,13 @@ def connectFloor():
     point1 = request.form.get("point1")
     point2 = request.form.get("point2")
     distance:int = int(request.form.get("distance"))
-    if floorEditor.checkFloor(floor1) and floorEditor.checkFloor(floor2):
+    if (floorEditor.checkFloor(floor1) and floorEditor.checkFloor(floor2)) and floor1 != floor2:
         if pointEditor.checkType(floor1, point1, "connector") and pointEditor.checkType(floor2, point2, "connector"):
             connectFloorError = floorEditor.connectFloor(floor1, point1, floor2, point2, distance)
         else:
             connectFloorError = "Check for typo in connector name."
     else:
-        connectFloorError = "Check for typo in floor name."
+        connectFloorError = "Check for typo in floor name. Can't connect connectors on the same floor. To do so go to the point tab."
     return redirect(url_for('floor'))
 
 @app.route('/removeConnectFloor', methods=["POST"])
@@ -137,6 +137,18 @@ def removeConnectFloor():
         connectFloorError = floorEditor.removeFloorConnect(point1, point2)
     else:
         connectFloorError = "No connection found."
+    return redirect(url_for('floor'))
+
+@app.route('/searchFloorConnect', methods=["POST"])
+def searchFloorConnect():
+    global floorSearchResult
+    point1 = request.form.get("point1")
+    point2 = request.form.get("point2")
+    if projectEditor.check(point1) and projectEditor.check(point2):
+        detail = floorEditor.getFloorConnect(point1, point2)
+        floorSearchResult = f"Point 1: {detail[1]} ({detail[0]}), Point 2: {detail[3]} ({detail[2]}), Distance: {detail[4]}"
+    else:
+        floorSearchResult = "Connector doesn't exist. Here"
     return redirect(url_for('floor'))
 
 @app.route('/addPoint', methods=["POST"])
@@ -166,6 +178,11 @@ def deletePoint():
     else:
         addPointError = "Point doesn't exist."
     return redirect(url_for('point', floor=floor))
+
+@app.route('/connectPoint', methods=["POST"])
+def connectPoint():
+    point1 = request.form.get("point1")
+    point2 = request.form.get("point2")
 
 if __name__ == '__main__':
     app.run(debug=True)

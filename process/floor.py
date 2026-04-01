@@ -167,11 +167,11 @@ class Floor():
         if __index > -1:
             __data = loadData(self.__path)
             __connectList:list[list] = __data["connect"]
-            __floor1 = __connectList[0][__index[0]]
-            __point1 = __connectList[1][__index[0]]
-            __floor2 = __connectList[2][__index[0]]
-            __point2 = __connectList[3][__index[0]]
-            __distance = __connectList[4][__index[0]]
+            __floor1 = __connectList[0][__index]
+            __point1 = __connectList[1][__index]
+            __floor2 = __connectList[2][__index]
+            __point2 = __connectList[3][__index]
+            __distance = __connectList[4][__index]
             return [__floor1, __point1, __floor2, __point2, __distance]
         else:
             return []

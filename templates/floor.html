@@ -53,13 +53,13 @@
 
         <div class="card" id="search">
             <strong>Search</strong>
-            <form>
+            <form action="/searchFloorConnect" method="post">
                 <input type="text" name="point1" placeholder="Point 1" required/>
                 <input type="text" name="point2" placeholder="Point 2" required/>
                 <input type="submit" value="Search" />
             </form>
+            <p id="floorSearchResult" style="margin:0; margin-top: 3px;">{{ floorSearchResult }}</p>
         </div>
-        <p id="floorSearchResult" style="margin:0;">{{ floorSearchResult }}</p>
     </div>
 
     <div class="container" id="floorDisplay">

@@ -55,6 +55,34 @@
             <p style="color: red; margin:0;">{{ addPointError }}</p>
         </div>
 
+        <div class="card" id="connect">
+            <strong>Connect</strong>
+            <form action="/connectPoint" method="post">
+                <input type="text" name="point1" placeholder="Point 1" required />
+                <input type="text" name="point2" placeholder="Point 2" required />
+                <input type="number" name="distance" step="0" min="1" placeholder="Distance" required />
+                <input id="floorInput3" type="hidden" name="floor" value="test" required />
+                <input type="submit" value="Connect" />
+            </form>
+            <form action="/removePointConnect" method="post">
+                <input type="text" name="point1" placeholder="Point 1" required />
+                <input type="text" name="point2" placeholder="Point 2" required />
+                <input id="floorInput4" type="hidden" name="floor" value="test" required />
+                <input type="submit" value="Remove" disabled />
+            </form>
+            <p style="color: red; margin:0;">{{ connectPointError }}</p>
+        </div>
+
+        <div class="card" id="search">
+            <strong>Search</strong>
+            <form action="" method="post">
+                <input type="text" name="point" placeholder="Point" required/>
+                <input id="floorInput5" type="hidden" name="floor" value="test" required />
+                <input type="submit" value="Search" />
+            </form>
+            <p id="floorSearchResult" style="margin:0; margin-top: 3px;">{{ pointSearchResult }}</p>
+        </div>
+
         <script>
             const keyValues = window.location.search;
             const urlParam = new URLSearchParams(keyValues);
@@ -62,23 +90,10 @@
             document.getElementById("selection").value = currentFloor;
             document.getElementById("floorInput1").value = currentFloor;
             document.getElementById("floorInput2").value = currentFloor;
+            document.getElementById("floorInput3").value = currentFloor;
+            document.getElementById("floorInput4").value = currentFloor;
+            document.getElementById("floorInput5").value = currentFloor;
         </script>
-
-        <div class="card" id="connect">
-            <strong>Connect</strong>
-            <form action="/connectPoint" method="post">
-                <input type="text" name="point1" placeholder="Point 1" required />
-                <input type="text" name="point2" placeholder="Point 2" required />
-                <input type="number" name="distance" step="0" min="1" placeholder="Distance" required />
-                <input type="submit" value="Connect" />
-            </form>
-            <form action="/removePointConnect" method="post">
-                <input type="text" name="point1" placeholder="Point 1" required />
-                <input type="text" name="point2" placeholder="Point 2" required />
-                <input type="submit" value="Remove" disabled />
-            </form>
-        </div>
-        <p style="color: red; margin:0;">{{ connectPointError }}</p>
     </div>
 
     <div class="container" id="pointDisplay">

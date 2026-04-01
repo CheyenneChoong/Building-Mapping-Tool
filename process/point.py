@@ -6,7 +6,6 @@ class Point():
     
     def setPath(self, path:str):
         self.__path = path
-        print("Point path set")
 
     def displayDetails(self, floor:str) -> str:
         if not floor:
@@ -120,3 +119,49 @@ class Point():
             return True
         else:
             return False
+    
+    def connectPoint(self, floor:str, point1:str, point2:str, distance:int) -> str:
+        __data = loadData(self.__path)
+        if point1 == point2:
+            return "Can't map point to itself."
+        __check = self.getPointConnectIndex(floor, point1, point2)
+        if __check == -1:
+            return "Connection exists."
+        
+        __floorDetail:dict = __data[floor]
+        __connections:list[list] = __floorDetail["connect"]
+        __connections[0].append(point1)
+        __connections[1].append(point2)
+        __connections[2].append(distance)
+        __floorDetail["connect"] = __connections
+        __data[floor] = __floorDetail
+        writeData(self.__path, __data)
+        return ""
+
+    def getPointConnectIndex(self, floor:str, point1:str, point2:str) -> int:
+        __data = loadData(self.__path)
+        __floorDetails:dict = __data[floor]
+        __connections:list = __floorDetails["connect"]
+        __searchList1:list = [__index for __index, __check in enumerate(__connections[0]) if __check == point1 or __check == point2]
+        __searchList2:list = [__index for __index, __check in enumerate(__connections[1]) if __check == point1 or __check == point2]
+        __index = list(set(__searchList1) & set(__searchList2))
+        if __index:
+            return __index[0]
+        else:
+            return -1
+    
+    def removePointConnect(self, floor:str, point1:str, point2:str) -> str:
+        __index = self.getPointConnectIndex(floor, point1, point2)
+        if __index == -1:
+            return "Connection doesn't exists."
+        __data = loadData(self.__path)
+        __floorDetail:dict = __data[floor]
+        __connections:list = __floorDetail["connect"]
+        del __connections[0][__index]
+        del __connections[1][__index]
+        del __connections[2][__index]
+        
+        __floorDetail["connect"] = __connections
+        __data[floor] = __floorDetail
+        writeData(self.__path, __data)
+        return ""

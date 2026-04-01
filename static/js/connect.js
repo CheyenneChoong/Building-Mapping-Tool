@@ -22,3 +22,18 @@ class Floor {
         }
     } 
 }
+
+// class Point {
+//     constructor(point1, point2, distance) {
+//         this.point1 = point1;
+//         this.point2 = point2;
+//         this.distance = distance;
+//         this.temp = [];
+//     }
+
+//     highlight(point) {
+//         for (let index = 0; index < this.temp.length; index++) {
+
+//         }
+//     }
+// }
