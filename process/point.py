@@ -187,12 +187,24 @@ class Point():
         else:
             return -1
     
-    def getPointConnectData(self, floor:str) -> list:
+    def pointConnectData(self, floor:str) -> list:
         if not floor:
             return [[], [], []]
         __data = loadData(self.__path)
         __floorDetail:dict = __data[floor]
         return __floorDetail["connect"]
+
+    def getConnectPoint(self, floor:str, point1:str, point2:str) -> list:
+        __index = self.getPointConnectIndex(floor, point1, point2)
+        if __index > -1:
+            __data = loadData(self.__path)
+            __connectList:list[list] = __data[floor]["connect"]
+            __point1 = __connectList[0][__index]
+            __point2 = __connectList[1][__index]
+            __distance = __connectList[2][__index]
+            return [ __point1, __point2, __distance]
+        else:
+            return []
 
     def removePointConnect(self, floor:str, point1:str, point2:str) -> str:
         __index = self.getPointConnectIndex(floor, point1, point2)

@@ -74,15 +74,16 @@
                 <input type="text" name="point1" placeholder="Point 1" required />
                 <input type="text" name="point2" placeholder="Point 2" required />
                 <input id="floorInput4" type="hidden" name="floor" value="test" required />
-                <input type="submit" value="Remove" disabled />
+                <input type="submit" value="Remove" />
             </form>
             <p style="color: red; margin:0;">{{ connectPointError }}</p>
         </div>
 
         <div class="card" id="search">
             <strong>Search</strong>
-            <form action="" method="post">
-                <input type="text" name="point" placeholder="Point" required/>
+            <form action="/searchPointConnect" method="post">
+                <input type="text" name="point1" placeholder="Point 1" required/>
+                <input type="text" name="point2" placeholder="Point 2" required/>
                 <input id="floorInput5" type="hidden" name="floor" value="test" required />
                 <input type="submit" value="Search" />
             </form>

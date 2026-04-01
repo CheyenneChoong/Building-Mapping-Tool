@@ -19,6 +19,7 @@ floorSelection = ""
 addPointError = ""
 connectPointError = ""
 currentFloor = ""
+pointSearchResult = ""
 
 def projectList() -> str:
     data = ""
@@ -55,8 +56,7 @@ def floor():
 def point():
     global currentFloor
     currentFloor = request.args.get("floor")
-    data = pointEditor.getPointConnectData(currentFloor)
-    print(data)
+    data = pointEditor.pointConnectData(currentFloor)
     return render_template(
         'point.html', 
         projectList = projectList(), 
@@ -67,7 +67,8 @@ def point():
         displayRoom=pointEditor.displayDetails(currentFloor),
         point1=data[0],
         point2=data[1],
-        distance=data[2])
+        distance=data[2],
+        pointSearchResult=pointSearchResult)
 
 @app.route('/test')
 def test():
@@ -93,9 +94,10 @@ def openProject():
 
 @app.route('/newFloor', methods=["POST"])
 def newFloor():
-    global newFloorError
+    global newFloorError, floorSelection
     floorName = request.form.get("floorName")
     newFloorError = floorEditor.addFloor(floorName.strip())
+    floorSelection = floorEditor.selectFloor()
     return redirect(url_for('floor'))
 
 @app.route('/repositionUp', methods=["POST"])
@@ -112,8 +114,10 @@ def repositionDown():
 
 @app.route('/deleteFloor', methods=["POST"])
 def deleteFloor():
+    global floorSelection
     floorName = request.form.get("floorName")
     floorEditor.removeFloor(floorName)
+    floorSelection = floorEditor.selectFloor()
     return redirect(url_for('floor'))
 
 @app.route('/connectFloor', methods=["POST"])
@@ -151,9 +155,12 @@ def searchFloorConnect():
     point2 = request.form.get("point2")
     if projectEditor.check(point1) and projectEditor.check(point2):
         detail = floorEditor.getFloorConnect(point1, point2)
-        floorSearchResult = f"Point 1: {detail[1]} ({detail[0]}), Point 2: {detail[3]} ({detail[2]}), Distance: {detail[4]}"
+        if detail:
+            floorSearchResult = f"Point 1: {detail[1]} ({detail[0]}), Point 2: {detail[3]} ({detail[2]}), Distance: {detail[4]}"
+        else:
+            floorSearchResult = "Connection doesn't exist."
     else:
-        floorSearchResult = "Connector doesn't exist. Here"
+        floorSearchResult = "Connector doesn't exist. "
     return redirect(url_for('floor'))
 
 @app.route('/addPoint', methods=["POST"])
@@ -210,6 +217,22 @@ def removePointConnect():
         connectPointError = pointEditor.removePointConnect(floor, point1, point2)
     else:
         connectPointError = "Connection doesn't exist."
+    return redirect(url_for('point', floor=floor))
+
+@app.route('/searchPointConnect', methods=["POST"])
+def searchPointConnect():
+    global pointSearchResult
+    point1 = request.form.get("point1")
+    point2 = request.form.get("point2")
+    floor = request.form.get("floor")
+    if projectEditor.check(point1) and projectEditor.check(point2):
+        detail = pointEditor.getConnectPoint(floor, point1, point2)
+        if detail:
+            pointSearchResult = f"Point 1: {detail[0]}, Point 2: {detail[1]}, Distance: {detail[2]}"
+        else:
+            pointSearchResult = "Connection doesn't exist."
+    else:
+        pointSearchResult = "Point doesn't exist. "
     return redirect(url_for('point', floor=floor))
 
 if __name__ == '__main__':

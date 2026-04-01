@@ -119,6 +119,13 @@ class Floor():
         __removeList2:list = [__index for __index, __check in enumerate(__connectList[1]) if __check == floor]
         __indexList:list = list(set(__removeList1 + __removeList2))
 
+        __roomList:list = __data[floor]["room"]
+        __connectorList:list = __data[floor]["connector"]
+        __checkpointList:list = __data[floor]["checkpoint"]
+        __deleteList = list(set(__roomList) | set(__connectorList) | set(__checkpointList))
+        for __delete in __deleteList:
+            __nameList.remove(__delete)
+
         __nameList.remove(floor)
         __floorList.remove(floor)
         for __index in __indexList:
