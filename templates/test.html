@@ -19,14 +19,21 @@
         <div class="card" id="search">
             <strong>Search</strong>
             <form action="/search" method="post">
-                <select name="point1"></select>
-                <select name="point2"></select>
-                <input type="submit" value="Search" />
+                <select name="point1" required>
+                    <option value="">--Select Starting Point--</option>
+                </select>
+                <select name="point2">
+                    <option value="">--Select Destination--</option>
+                </select>
+                <button id="searchButton" type="button">Search</button>
             </form>
         </div>
     </div>
 
     <div class="container" id="searchOutput">
     </div>
+
+    <script>
+    </script>
 </body>
 </html>

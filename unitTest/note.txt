@@ -1,0 +1,18 @@
+How to determine the shortest route?
+- Identify the current node.
+- Check if the neighbour is the destination.
+- Check for the shortest route. 
+- Track the distance. If the neighbour was the destination,
+check if the distance based on shortest matches or is more.
+Helps determine if it's a shortcut.
+- 
+
+============================================================
+
+- Identify the current node.
+- Identify the nodes connected to the current node.
+- Check if the destination is one of the neighbours.
+- If it is, store the value of the distance to the neighbour.
+- Find the shortest route, if there is a stored value to destination,
+check if it's more or equal. 
+- If equal, cut and return. If less, continue checking.
