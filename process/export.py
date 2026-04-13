@@ -90,3 +90,29 @@ class Export():
                 __connectionTable[__floor][__point][0].append(__connections[1][__index])
                 __connectionTable[__floor][__point][1].append(__connections[2][__index])
         return __connectionTable
+    
+    def downloadData(self, path) -> dict:
+        __file = loadData(path)
+        __data = {
+            "floors": __file["floors"],
+            "points": __file["names"],
+        }
+        __floorList = __file["floors"]
+        for __floor in __floorList:
+            __data[__floor] = __file[__floor]["room"] + list(set(__file[__floor]["checkpoint"]) | set(__file[__floor]["connector"]))
+        __data["all"] = self.allConnection(path)
+        __data["room-checkpoint"] = self.roomTable(path)
+        __data["checkpoint-checkpoint"] = self.floorTable(path)
+        __data["floor-floor"] = self.crossFloorTable(path)
+        return __data
+
+    def sql(self, path, table, column):
+        __data = loadData(path)
+        __nameList = __data["names"]
+        __floorList = __data["floors"]
+        __dataList = list(set(__nameList) - set(__floorList))
+
+        __generatedString = ""
+        for __name in __dataList:
+            __generatedString = f"{__generatedString}INSERT INTO {table} ({column}) VALUES ('{__name}');<br/>"
+        return __generatedString

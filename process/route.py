@@ -30,11 +30,11 @@ class Route():
 
         __startPoint:list[list] = [[], []]
         __endPoint:list[list] = [[], []]
-        if start in __roomTable[__startFloor].keys():
+        if start in __roomTable[__startFloor].keys() and not start in self.__convert.floorTable(self.__path)[__startFloor]:
             __startPoint = __roomTable[__startFloor][start]
         else:
             __startPoint = [[start], [0]]
-        if end in __roomTable[__endFloor].keys():
+        if end in __roomTable[__endFloor].keys() and not end in self.__convert.floorTable(self.__path)[__endFloor]:
             __endPoint = __roomTable[__endFloor][end]
         else:
             __endPoint = [[end], [0]]
@@ -47,13 +47,19 @@ class Route():
         if __startFloor == __endFloor:
             for __startIndex, __point1 in enumerate(__startPoint[0]):
                 for __endIndex, __point2 in enumerate(__endPoint[0]):
-                    __data = self.__convert.roomTable(self.__path)[__startFloor]
+                    __data = self.__convert.floorTable(self.__path)[__startFloor]
                     __result = self.__dijkstra(__point1, __point2, __data)
-                    __tempPath = [start] + __result[0] + [end]
-                    __tempDistance = __startPoint[1][__startIndex] + __result[1] + __endPoint[1][__endIndex]
+                    if __result:
+                        __tempPath = [start] + __result[0] + [end]
+                        __tempDistance = __startPoint[1][__startIndex] + __result[1] + __endPoint[1][__endIndex]
+                    elif __point1 == __point2:
+                        __tempPath = [start] + [__point1] + [end]
+                    else:
+                        continue
                     if __tempDistance < __distance:
                         __path = __tempPath
                         __distance = __tempDistance
+                    __tempDistance = 0
             return __path
 
         for __index, __crossRoute in enumerate(__crossFloorPath[2]):
@@ -68,6 +74,8 @@ class Route():
                     if __point1 != __crossFloorPath[0][__index][0]:
                         __data = self.__convert.floorTable(self.__path)[__startFloor]
                         __result = self.__dijkstra(__point1, __crossFloorPath[0][__index][0], __data)
+                        if not __result:
+                            continue
                         __toCheckpoint = [start] + __result[0]
                         __tempDistance = __tempDistance + __result[1] + __startPoint[1][__startIndex]
                     else:
@@ -76,7 +84,9 @@ class Route():
                     
                     if __point2 != __crossFloorPath[0][__index][1]:
                         __data = self.__convert.floorTable(self.__path)[__endFloor]
-                        __result = self.__dijkstra(__point2, __crossFloorPath[0][__index][1], __data)
+                        __result = self.__dijkstra(__crossFloorPath[0][__index][1], __point2, __data)
+                        if not __result:
+                            continue
                         __fromCheckpoint = __result[0] + [end]
                         __tempDistance = __tempDistance + __result[1] + __endPoint[1][__endIndex]
                     else:
@@ -88,6 +98,7 @@ class Route():
                     if __tempDistance < __distance:
                         __path = __tempPath
                         __distance = __tempDistance
+                    __tempDistance = 0
         
         if __path:
             return __path
@@ -155,6 +166,7 @@ class Route():
 
         __previous = start
         __node = ""
+        __nextKey = ""
         __distance = 0
         __temp = 0
         __current = 0
@@ -170,8 +182,10 @@ class Route():
                             __nextKey = __key
                     if __previous == __nextKey:
                         break
-                    else:
+                    elif __nextKey:
                         __previous = __nextKey
+                    else:
+                        break
                 else:
                     break
                 continue

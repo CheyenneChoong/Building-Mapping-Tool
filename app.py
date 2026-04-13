@@ -1,14 +1,16 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, Response, jsonify
 from process.project import Project
 from process.floor import Floor
 from process.point import Point
 from process.route import Route
+from process.export import Export
 from pathlib import Path
 
 projectEditor = Project()
 floorEditor = Floor()
 pointEditor = Point()
 routeFinder = Route()
+exporter = Export()
 
 # Variables used in Floor Page
 projectTitle = "Untitled Project"
@@ -25,6 +27,9 @@ pointSearchResult = ""
 
 # Variables used in Test Page.
 navigateResult = ""
+
+# Variable used in Export Page.
+generateResult = ""
 
 def projectList() -> str:
     data = ""
@@ -85,6 +90,16 @@ def test():
         projectTitle=projectTitle, 
         options=options,
         navigateResult = navigateResult)
+
+@app.route('/export')
+def export():
+    global generateResult
+    return render_template(
+        'export.html',
+        projectList = projectList(),
+        projectTitle=projectTitle,
+        generateResult=generateResult
+    )
 
 @app.route('/newProject', methods=["POST"])
 def newProject():
@@ -257,11 +272,37 @@ def navigate():
         return redirect(url_for('test'))    
     path = routeFinder.navigate(point1, point2)
     if path:
-        navigateResult = " -> ".join(path)
+        start = path[0]
+        end = path[len(path)-1]
+        del path[0]
+        del path[len(path)-1]
+        navigateResult = f"""
+        Start: {start}<br/>
+        Go To: {" -> ".join(path)}<br/>
+        End: {end}
+        """
         return redirect(url_for('test'))
     else:
         navigateResult = "No route found."
         return redirect(url_for('test'))
+    
+@app.route('/generate', methods=["POST"])
+def generate():
+    global generateResult
+    table = request.form.get("table")
+    column = request.form.get("column")
+    generateResult = exporter.sql(projectEditor.getPath(), table, column)
+    return redirect(url_for('export'))
+
+@app.route('/download', methods=["POST"])
+def download():
+    data = exporter.downloadData(projectEditor.getPath())
+    jsonData = jsonify(data).get_data(as_text=True)
+    return Response(
+        jsonData,
+        mimetype="application/json",
+        headers={"Content-Disposition": "attachment;filename=file.json"}
+    )
 
 if __name__ == '__main__':
     app.run(debug=True)
