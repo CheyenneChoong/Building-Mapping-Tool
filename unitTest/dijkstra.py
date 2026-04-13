@@ -44,14 +44,16 @@ def dijkstra(x, start, target=None):
 
 # Example usage with your data
 x = [
-    ["A", "A", "A", "B", "B", "B", "C", "C", "D", "D", "E"],
-    ["B", "F", "D", "F", "E", "C", "E", "G", "E", "G", "G"],
-    [2, 3, 5, 4, 1, 7, 3, 4, 1, 1, 3]
+    ["A", "A", "A", "B", "B", "B", "C", "C", "D", "D", "E", "H"],
+    ["B", "F", "D", "F", "E", "C", "E", "G", "E", "G", "G", "I"],
+    [2, 3, 5, 4, 1, 7, 3, 4, 1, 1, 3, 5]
 ]
 
 # Find shortest path from A to C
-elapsed = timeit.timeit(lambda: dijkstra(x, start="A", target="B"))
-distance, path = dijkstra(x, start="A", target="F")
+start = "A"
+end = "H"
+elapsed = timeit.timeit(lambda: dijkstra(x, start, end), number=1)
+distance, path = dijkstra(x, start, end)
 print("Shortest distance:", distance)
 print("Path:", path)
-print(elapsed)
+print(f"{elapsed:.20f}")

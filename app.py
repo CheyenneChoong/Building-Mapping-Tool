@@ -2,11 +2,13 @@ from flask import Flask, render_template, request, redirect, url_for
 from process.project import Project
 from process.floor import Floor
 from process.point import Point
+from process.route import Route
 from pathlib import Path
 
 projectEditor = Project()
 floorEditor = Floor()
 pointEditor = Point()
+routeFinder = Route()
 
 # Variables used in Floor Page
 projectTitle = "Untitled Project"
@@ -20,6 +22,9 @@ addPointError = ""
 connectPointError = ""
 currentFloor = ""
 pointSearchResult = ""
+
+# Variables used in Test Page.
+navigateResult = ""
 
 def projectList() -> str:
     data = ""
@@ -72,7 +77,14 @@ def point():
 
 @app.route('/test')
 def test():
-    return render_template('test.html', projectList = projectList(), projectTitle=projectTitle)
+    global navigateResult
+    options = routeFinder.displayOption()
+    return render_template(
+        'test.html', 
+        projectList = projectList(), 
+        projectTitle=projectTitle, 
+        options=options,
+        navigateResult = navigateResult)
 
 @app.route('/newProject', methods=["POST"])
 def newProject():
@@ -88,6 +100,7 @@ def openProject():
     projectEditor.openProject(projectName.strip())
     floorEditor.setPath(projectEditor.getPath())
     pointEditor.setPath(projectEditor.getPath())
+    routeFinder.setPath(projectEditor.getPath())
     projectTitle = projectEditor.getTitle()
     floorSelection = floorEditor.selectFloor()
     return redirect(url_for('floor'))
@@ -233,6 +246,22 @@ def searchPointConnect():
     else:
         pointSearchResult = "Point doesn't exist. "
     return redirect(url_for('point', floor=floor))
+
+@app.route('/navigate', methods=["POST"])
+def navigate():
+    global navigateResult
+    point1 = request.form.get("point1")
+    point2 = request.form.get("point2")
+    if point1 == point2:
+        navigateResult = "Can't map to itself."
+        return redirect(url_for('test'))    
+    path = routeFinder.navigate(point1, point2)
+    if path:
+        navigateResult = " -> ".join(path)
+        return redirect(url_for('test'))
+    else:
+        navigateResult = "No route found."
+        return redirect(url_for('test'))
 
 if __name__ == '__main__':
     app.run(debug=True)
