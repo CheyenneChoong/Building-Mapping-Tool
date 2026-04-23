@@ -60,8 +60,11 @@ class Route():
                         __path = __tempPath
                         __distance = __tempDistance
                     __tempDistance = 0
+        
+        if __path:
             return __path
 
+        breakOut = False
         for __index, __crossRoute in enumerate(__crossFloorPath[2]):
             if __crossRoute[0] != __startFloor or __crossRoute[1] != __endFloor:
                 continue
@@ -69,7 +72,8 @@ class Route():
                 for __endIndex, __point2 in enumerate(__endPoint[0]):
                     if __point1 == __crossFloorPath[0][__index][0] and __point2 == __crossFloorPath[0][__index][1]:
                         __path = [start] + [__startPoint[0][__startIndex]] + [__endPoint[0][__endIndex]] + [end]
-                        return __path
+                        breakOut = True
+                        break
                     
                     if __point1 != __crossFloorPath[0][__index][0]:
                         __data = self.__convert.floorTable(self.__path)[__startFloor]
@@ -99,6 +103,10 @@ class Route():
                         __path = __tempPath
                         __distance = __tempDistance
                     __tempDistance = 0
+                
+                if breakOut:
+                    break
+        
         
         if __path:
             return __path

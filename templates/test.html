@@ -13,6 +13,53 @@
     <script>
         document.getElementById("test").style.backgroundColor = "#1B66A6";
         document.getElementById("test").style.color = "white";
+        async function test() {
+            document.getElementById("testButton").disabled = true;
+            document.getElementById("searchButton").disabled = true;
+
+            response = await fetch("/getNode", {
+                method:"POST",
+                headers: {"Content-Type": "application/json"},
+                body: JSON.stringify({input: document.getElementById("floorSelect").value})
+            });
+            floorObject = await response.json();
+            floorString = JSON.stringify(floorObject.output);
+            floorString = floorString.replaceAll('"', "");
+            floorString = floorString.replaceAll("[", "");
+            floorString = floorString.replaceAll("]", "");
+            nodeList1 = floorString.split(",");
+            nodeList2 = floorString.split(",");
+            document.getElementById("output").innerText = "Performing Route Test\n\nPath with No Route\n";
+            noRoute = 0;
+            total = 0;
+            for (const node1 of nodeList1) {
+                for (const node2 of nodeList2) {
+                    response = await fetch("/check", {
+                        method:"POST",
+                        headers: {"Content-Type": "application/json"},
+                        body: JSON.stringify({point1: node1, point2: node2 })
+                    });
+                    resultObject = await response.json();
+                    resultString = JSON.stringify(resultObject.output);
+                    result = Boolean(resultString);
+                    total += 1
+                    if (resultObject.output == false) {
+                        document.getElementById("output").innerText += node1 + " -> " + node2 + "\n";
+                        noRoute += 1
+                    }
+                }
+            }
+            haveRoute = total - noRoute;
+            percentage = haveRoute / total * 100;
+            temp = document.getElementById("output").innerText;
+            temp = temp.replace("Performing Route Test", "");
+            document.getElementById("output").innerText = "Test Completed\t" + percentage + "%";
+            document.getElementById("output").innerText += "\nHave Route: " + haveRoute + "\tNo Route: " + noRoute + "\n" + haveRoute + "/" + total;
+            document.getElementById("output").innerText += temp;
+
+            document.getElementById("testButton").disabled = false;
+            document.getElementById("searchButton").disabled = false;
+        }
     </script>
 
     <div class="panel">
@@ -30,13 +77,22 @@
                 <button id="searchButton" type="submit">Search</button>
             </form>
         </div>
+        <div class="card" id="unitTest">
+            <strong>Unit Test</strong>
+            <form>
+                <select name="floor" id="floorSelect" required>
+                    <option value="All">All</option>
+                    {{ floorList|safe }}
+                </select>
+                <button id="testButton" type="button" onclick="test()">Test</button>
+            </form>
+        </div>
     </div>
 
     <div class="container" id="searchOutput">
-        <p>{{ navigateResult|safe }}</p>
+        <p id="output">{{ navigateResult|safe }}</p>
     </div>
 
-    <script>
-    </script>
+    
 </body>
 </html>

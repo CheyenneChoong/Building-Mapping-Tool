@@ -4,6 +4,7 @@ from process.floor import Floor
 from process.point import Point
 from process.route import Route
 from process.export import Export
+from process.load import loadData
 from pathlib import Path
 
 projectEditor = Project()
@@ -27,6 +28,7 @@ pointSearchResult = ""
 
 # Variables used in Test Page.
 navigateResult = ""
+floorList= ""
 
 # Variable used in Export Page.
 generateResult = ""
@@ -82,13 +84,18 @@ def point():
 
 @app.route('/test')
 def test():
-    global navigateResult
+    global navigateResult, floorList
     options = routeFinder.displayOption()
+    floors = floorEditor.getFloor()
+    floorList = ""
+    for floor in floors:
+        floorList = f"{floorList}<option value='{floor}'>{floor}</option>"
     return render_template(
         'test.html', 
         projectList = projectList(), 
         projectTitle=projectTitle, 
         options=options,
+        floorList=floorList,
         navigateResult = navigateResult)
 
 @app.route('/export')
@@ -277,9 +284,11 @@ def navigate():
         del path[0]
         del path[len(path)-1]
         navigateResult = f"""
+        <p>
         Start: {start}<br/>
         Go To: {" -> ".join(path)}<br/>
         End: {end}
+        </p>
         """
         return redirect(url_for('test'))
     else:
@@ -303,6 +312,30 @@ def download():
         mimetype="application/json",
         headers={"Content-Disposition": "attachment;filename=file.json"}
     )
+
+@app.route('/getNode', methods=["POST"])
+def getNode():
+    data = request.json
+    floor = data['input']
+    projectData = loadData(projectEditor.getPath())
+    if floor == "All":
+        floors = projectData["floors"]
+        names = projectData["names"]
+        nodes = list(set(names) - set(floors))
+    else:
+        nodes = projectData[floor]["room"] + list(set(projectData[floor]["checkpoint"]) | set(projectData[floor]["connector"]))
+    return jsonify({"output": nodes})
+
+@app.route('/check', methods=["POST"])
+def check():
+    data = request.json
+    node1 = data["point1"]
+    node2 = data["point2"]
+    result = routeFinder.navigate(node1, node2)
+    if result:
+        return jsonify({"output": True})
+    else:
+        return jsonify({"output": False})
 
 if __name__ == '__main__':
     app.run(debug=True)

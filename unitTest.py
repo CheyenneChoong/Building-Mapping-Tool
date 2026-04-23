@@ -22,10 +22,15 @@ for point1 in pointList1:
         try:
             # print(f"{point1} -> {point2} | {tester.navigate(point1, point2)}")
             result =tester.navigate(point1, point2)
+            
             if result:
                 success += 1
             else:
                 print(f"{point1} -> {point2} | No route")
+                # print(result)
         except:
             print(f"{point1} -> {point2} | Failed.")
 print(f"Test Completed. {success}/{counter}")
+
+# result = tester.navigate("R4-1", "R4-2")
+# print(result)

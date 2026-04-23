@@ -1,5 +1,7 @@
 #searchOutput {
     height: 60vh;
+    word-wrap: break-word;
+    overflow-y: auto;
 }
 
 #search form {
