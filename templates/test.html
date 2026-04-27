@@ -29,9 +29,11 @@
             floorString = floorString.replaceAll("]", "");
             nodeList1 = floorString.split(",");
             nodeList2 = floorString.split(",");
-            document.getElementById("output").innerText = "Performing Route Test\n\nPath with No Route\n";
+            document.getElementById("output").innerText = "Performing Route Test (0% - --/--)";
             noRoute = 0;
             total = 0;
+            possible = nodeList1.length * nodeList2.length;
+            temp = "";
             for (const node1 of nodeList1) {
                 for (const node2 of nodeList2) {
                     response = await fetch("/check", {
@@ -44,17 +46,18 @@
                     result = Boolean(resultString);
                     total += 1
                     if (resultObject.output == false) {
-                        document.getElementById("output").innerText += node1 + " -> " + node2 + "\n";
+                        temp += node1 + " -> " + node2 + "\n";
                         noRoute += 1
                     }
+                    percentage = Math.round(total / possible * 100);
+                    document.getElementById("output").innerText = "Performing Route Test (" + percentage + "% - " + total + "/" + possible + ")" ;
+                        
                 }
             }
             haveRoute = total - noRoute;
             percentage = haveRoute / total * 100;
-            temp = document.getElementById("output").innerText;
-            temp = temp.replace("Performing Route Test", "");
-            document.getElementById("output").innerText = "Test Completed\t" + percentage + "%";
-            document.getElementById("output").innerText += "\nHave Route: " + haveRoute + "\tNo Route: " + noRoute + "\n" + haveRoute + "/" + total;
+            document.getElementById("output").innerText = "Test Completed\t" + Math.round(percentage) + "%";
+            document.getElementById("output").innerText += "\nHave Route: " + haveRoute + "\tNo Route: " + noRoute + "\n" + haveRoute + "/" + total + "\n";
             document.getElementById("output").innerText += temp;
 
             document.getElementById("testButton").disabled = false;
